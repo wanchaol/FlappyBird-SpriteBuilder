@@ -67,7 +67,6 @@
     _clouds = @[_cloud1, _cloud2];
     _bushes = @[_bush1, _bush2];
     
-    
     _parallaxBackground = [CCParallaxNode node];
     [_parallaxContainer addChild:_parallaxBackground];
     
