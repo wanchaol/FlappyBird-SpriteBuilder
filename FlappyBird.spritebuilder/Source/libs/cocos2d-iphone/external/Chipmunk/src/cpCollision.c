@@ -35,6 +35,8 @@
 #define PRINT_LOG 0
 #endif
 
+#define ENABLE_CACHING 1
+
 #define MAX_GJK_ITERATIONS 30
 #define MAX_EPA_ITERATIONS 30
 #define WARN_GJK_ITERATIONS 20
@@ -248,10 +250,10 @@ ClosestPointsNew(const struct MinkowskiPoint v0, const struct MinkowskiPoint v1)
 		return points;
 	} else {
 		// Vertex/vertex collisions need special treatment since the MSA won't be shared with an axis of the minkowski difference.
-		cpFloat d2 = cpvlength(p);
-		cpVect n2 = cpvmult(p, 1.0f/(d2 + CPFLOAT_MIN));
+		cpFloat d = cpvlength(p);
+		cpVect n = cpvmult(p, 1.0f/(d + CPFLOAT_MIN));
 		
-		struct ClosestPoints points = {pa, pb, n2, d2, id};
+		struct ClosestPoints points = {pa, pb, n, d, id};
 		return points;
 	}
 }
@@ -460,7 +462,7 @@ GJK(const struct SupportContext *ctx, cpCollisionID *id)
 #endif
 	
 	struct MinkowskiPoint v0, v1;
-	if(*id){
+	if(*id && ENABLE_CACHING){
 		// Use the minkowski points from the last frame as a starting point using the cached indexes.
 		v0 = MinkowskiPointNew(ShapePoint(ctx->shape1, (*id>>24)&0xFF), ShapePoint(ctx->shape2, (*id>>16)&0xFF));
 		v1 = MinkowskiPointNew(ShapePoint(ctx->shape1, (*id>> 8)&0xFF), ShapePoint(ctx->shape2, (*id    )&0xFF));

@@ -8,7 +8,6 @@
 
 #import "CCSlider.h"
 #import "CCControlSubclass.h"
-#import "CCTouch.h"
 
 @interface CCSlider (Inputs)
 - (void) inputEnteredWithWorlPos:(CGPoint)worldLocation;
@@ -71,11 +70,11 @@
     _handle.position = ccp(size.width * _sliderValue, size.height/2.0f);
 }
 
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_ANDROID
+#ifdef __CC_PLATFORM_IOS
 
 #pragma mark Handle touches
 
-- (void) touchEntered:(CCTouch*)touch withEvent:(CCTouchEvent*)event
+- (void) touchEntered:(UITouch*)touch withEvent:(UIEvent*)event
 {
     if (!self.enabled) return;
     
@@ -84,17 +83,17 @@
     [self inputEnteredWithWorlPos:worldLocation];
 }
 
-- (void) touchUpInside:(CCTouch*)touch withEvent:(CCTouchEvent*)event
+- (void) touchUpInside:(UITouch*)touch withEvent:(UIEvent*)event
 {
     [self inputUpInside];
 }
 
-- (void) touchUpOutside:(CCTouch*)touch withEvent:(CCTouchEvent*)event
+- (void) touchUpOutside:(UITouch*)touch withEvent:(UIEvent*)event
 {
     [self inputUpOutside];
 }
 
-- (void) touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+- (void) touchMoved:(UITouch *)touch withEvent:(UIEvent *)event
 {
     CGPoint dragPos = [touch locationInNode:self];
     
@@ -104,7 +103,7 @@
 }
 
 
-#elif __CC_PLATFORM_MAC
+#elif defined(__CC_PLATFORM_MAC)
 
 #pragma mark Handle mouse events
 

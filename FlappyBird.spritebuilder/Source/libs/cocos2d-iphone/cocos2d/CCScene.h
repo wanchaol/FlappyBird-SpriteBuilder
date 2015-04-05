@@ -27,8 +27,6 @@
 
 #import "CCNode.h"
 
-@class CCLightCollection;
-
 /** CCScene is a subclass of CCNode and must be the parent of all your nodes. 
  
  - In previous versions of Cocos2D, CCLayer was used to group nodes placed in a CCScene.
@@ -38,10 +36,6 @@
  
  */
 @interface CCScene : CCNode
-
-#if CC_EFFECTS_EXPERIMENTAL
-@property (nonatomic, readonly, strong) CCLightCollection *lights;
-#endif
 
 /// -----------------------------------------------------------------------
 /// @name Initializing a CCScene Object

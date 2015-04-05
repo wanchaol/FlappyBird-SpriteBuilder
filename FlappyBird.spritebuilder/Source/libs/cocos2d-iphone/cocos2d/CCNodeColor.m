@@ -35,10 +35,9 @@
 #import "Support/CGPointExtension.h"
 #import "CCNode_Private.h"
 
-
-#if __CC_PLATFORM_IOS
+#ifdef __CC_PLATFORM_IOS
 #import "Platforms/iOS/CCDirectorIOS.h"
-#elif __CC_PLATFORM_MAC
+#elif defined(__CC_PLATFORM_MAC)
 #import "Platforms/Mac/CCDirectorMac.h"
 #endif
 
@@ -102,22 +101,22 @@
 
 -(void)draw:(CCRenderer *)renderer transform:(const GLKMatrix4 *)transform
 {
-    CGSize size = self.contentSizeInPoints;
-    GLKVector2 hs = GLKVector2Make(size.width*0.5f, size.height*0.5f);
-    if(!CCRenderCheckVisbility(transform, hs, hs)) return;
-    
-    GLKVector2 zero = GLKVector2Make(0, 0);
-    
-    CCRenderBuffer buffer = [renderer enqueueTriangles:2 andVertexes:4 withState:self.renderState globalSortOrder:0];
-    
-    float w = size.width, h = size.height;
-    CCRenderBufferSetVertex(buffer, 0, (CCVertex){GLKMatrix4MultiplyVector4(*transform, GLKVector4Make(0, 0, 0, 1)), zero, zero, _colors[0]});
-    CCRenderBufferSetVertex(buffer, 1, (CCVertex){GLKMatrix4MultiplyVector4(*transform, GLKVector4Make(w, 0, 0, 1)), zero, zero, _colors[1]});
-    CCRenderBufferSetVertex(buffer, 2, (CCVertex){GLKMatrix4MultiplyVector4(*transform, GLKVector4Make(w, h, 0, 1)), zero, zero, _colors[2]});
-    CCRenderBufferSetVertex(buffer, 3, (CCVertex){GLKMatrix4MultiplyVector4(*transform, GLKVector4Make(0, h, 0, 1)), zero, zero, _colors[3]});
-    
-    CCRenderBufferSetTriangle(buffer, 0, 0, 1, 2);
-    CCRenderBufferSetTriangle(buffer, 1, 0, 2, 3);
+	CGSize size = self.contentSizeInPoints;
+	GLKVector2 hs = GLKVector2Make(size.width*0.5f, size.height*0.5f);
+	if(!CCRenderCheckVisbility(transform, hs, hs)) return;
+	
+	GLKVector2 zero = GLKVector2Make(0, 0);
+	
+	CCRenderBuffer buffer = [renderer enqueueTriangles:2 andVertexes:4 withState:self.renderState globalSortOrder:0];
+	
+	float w = size.width, h = size.height;
+	CCRenderBufferSetVertex(buffer, 0, (CCVertex){GLKMatrix4MultiplyVector4(*transform, GLKVector4Make(0, 0, 0, 1)), zero, zero, _colors[0]});
+	CCRenderBufferSetVertex(buffer, 1, (CCVertex){GLKMatrix4MultiplyVector4(*transform, GLKVector4Make(w, 0, 0, 1)), zero, zero, _colors[1]});
+	CCRenderBufferSetVertex(buffer, 2, (CCVertex){GLKMatrix4MultiplyVector4(*transform, GLKVector4Make(w, h, 0, 1)), zero, zero, _colors[2]});
+	CCRenderBufferSetVertex(buffer, 3, (CCVertex){GLKMatrix4MultiplyVector4(*transform, GLKVector4Make(0, h, 0, 1)), zero, zero, _colors[3]});
+	
+	CCRenderBufferSetTriangle(buffer, 0, 0, 1, 2);
+	CCRenderBufferSetTriangle(buffer, 1, 0, 2, 3);
 }
 
 #pragma mark Protocols
@@ -134,13 +133,6 @@
 	[super setOpacity:opacity];
 	[self updateColor];
 }
-
-- (void)updateDisplayedOpacity:(CGFloat)parentOpacity
-{
-    [super updateDisplayedOpacity:parentOpacity];
-    [self updateColor];
-}
-
 @end
 
 
@@ -192,8 +184,9 @@
 	
 	float gmin = MIN(MIN(g0, g1), MIN(g2, g3));
 	float gmax = MAX(MAX(g0, g1), MAX(g2, g3));
-	GLKVector4 a = GLKVector4Make(_color.r*_color.a*_displayColor.a, _color.g*_color.a*_displayColor.a, _color.b*_color.a*_displayColor.a, _color.a*_displayColor.a);
-	GLKVector4 b = GLKVector4Make(_endColor.r*_endColor.a*_displayColor.a, _endColor.g*_endColor.a*_displayColor.a, _endColor.b*_endColor.a*_displayColor.a, _endColor.a*_displayColor.a);
+	
+	GLKVector4 a = GLKVector4Make(_color.r*_color.a, _color.g*_color.a, _color.b*_color.a, _color.a);
+	GLKVector4 b = GLKVector4Make(_endColor.r*_endColor.a, _endColor.g*_endColor.a, _endColor.b*_endColor.a, _endColor.a);
 	_colors[0] =  GLKVector4Lerp(a, b, (g0 - gmin)/(gmax - gmin));
 	_colors[1] =  GLKVector4Lerp(a, b, (g1 - gmin)/(gmax - gmin));
 	_colors[2] =  GLKVector4Lerp(a, b, (g2 - gmin)/(gmax - gmin));

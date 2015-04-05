@@ -25,19 +25,23 @@
 #import "cocos2d.h"
 #import "CCControl.h"
 
-#import "CCPlatformTextField.h"
-
-@class CCPlatformTextField;
-
+#ifdef __CC_PLATFORM_IOS
 /**
  The CCTextField is used for editing text by encapsulating a native text field (NSTextField on Mac and UITextField on iOS). An action callback will be sent when the text finishes editing or if the return key is pressed.
  
  @warning The native text field is only translated, no other transformations are applied. The text field may not be displayed correctly if rotated or scaled.
  */
-@interface CCTextField : CCControl <CCPlatformTextFieldDelegate>
+@interface CCTextField : CCControl <UITextFieldDelegate>
+#elif defined(__CC_PLATFORM_MAC)
+@interface CCTextField : CCControl <NSTextFieldDelegate>
+#endif
 {
     CCSprite9Slice* _background;
-
+		CGFloat _scaleMultiplier;
+#ifdef __CC_PLATFORM_IOS
+    BOOL _keyboardIsShown;
+    float _keyboardHeight;
+#endif
 }
 
 /**
@@ -58,20 +62,14 @@
  */
 - (id) initWithSpriteFrame:(CCSpriteFrame*)frame;
 
-#if __CC_PLATFORM_IOS
+#ifdef __CC_PLATFORM_IOS
 /** iOS: UITextField used by the CCTextField. */
 @property (nonatomic,readonly) UITextField* textField;
-#elif __CC_PLATFORM_MAC
+#elif defined(__CC_PLATFORM_MAC)
 
 /** Mac: NSTextField used by the CCTextField. */
 @property (nonatomic,readonly) NSTextField* textField;
-#elif __CC_PLATFORM_ANDROID
-/** Mac: AndroidEditText used by the CCTextField. */
-@property (nonatomic,readonly) AndroidEditText* textField;
 #endif
-
-@property (nonatomic,readonly) CCPlatformTextField *platformTextField;
-
 
 /** The sprite frame used to render the text field's background. */
 @property (nonatomic,strong) CCSpriteFrame* backgroundSpriteFrame;
@@ -83,7 +81,7 @@
 @property (nonatomic,readonly) float fontSizeInPoints;
 
 /** Padding from the edge of the text field's background to the native text field component. */
-@property (nonatomic,assign) CGFloat padding;
+@property (nonatomic,assign) float padding;
 
 /** The text displayed by the text field. */
 @property (nonatomic,strong) NSString* string;

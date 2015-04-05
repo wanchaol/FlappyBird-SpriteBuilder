@@ -26,16 +26,13 @@
 #import "CCControlSubclass.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
-#import "CCTouch.h"
-#import "CCTouchEvent.h"
 
-#if __CC_PLATFORM_IOS
+#ifdef __CC_PLATFORM_IOS
 
 // iOS headers
-//#import "PlatformTouch+CC.h"
+#import "UITouch+CC.h"
 
-
-#elif __CC_PLATFORM_MAC
+#elif defined (__CC_PLATFORM_MAC)
 
 // Mac headers
 #import "NSEvent+CC.h"
@@ -79,9 +76,9 @@
 
 #pragma mark Touch handling
 
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_ANDROID
+#ifdef __CC_PLATFORM_IOS
 
-- (void) touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+- (void) touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
     _tracking = YES;
     _touchInside = YES;
@@ -89,7 +86,7 @@
     [self touchEntered:touch withEvent:event];
 }
 
-- (void) touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+- (void) touchMoved:(UITouch *)touch withEvent:(UIEvent *)event
 {
     if ([self hitTestWithWorldPos:[touch locationInWorld]])
     {
@@ -109,7 +106,7 @@
     }
 }
 
-- (void) touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+- (void) touchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
     if (_touchInside)
     {
@@ -124,7 +121,7 @@
     _tracking = NO;
 }
 
-- (void) touchCancelled:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+- (void) touchCancelled:(UITouch *)touch withEvent:(UIEvent *)event
 {
     if (_touchInside)
     {
@@ -136,19 +133,19 @@
     _tracking = NO;
 }
 
-- (void) touchEntered:(CCTouch*) touch withEvent:(CCTouchEvent*)event
+- (void) touchEntered:(UITouch*) touch withEvent:(UIEvent*)event
 {}
 
-- (void) touchExited:(CCTouch*) touch withEvent:(CCTouchEvent*) event
+- (void) touchExited:(UITouch*) touch withEvent:(UIEvent*) event
 {}
 
-- (void) touchUpInside:(CCTouch*) touch withEvent:(CCTouchEvent*) event
+- (void) touchUpInside:(UITouch*) touch withEvent:(UIEvent*) event
 {}
 
-- (void) touchUpOutside:(CCTouch*) touch withEvent:(CCTouchEvent*) event
+- (void) touchUpOutside:(UITouch*) touch withEvent:(UIEvent*) event
 {}
 
-#elif __CC_PLATFORM_MAC
+#elif defined (__CC_PLATFORM_MAC)
 
 - (void) mouseDown:(NSEvent *)event
 {

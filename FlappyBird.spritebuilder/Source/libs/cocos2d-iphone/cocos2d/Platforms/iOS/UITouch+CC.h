@@ -26,12 +26,12 @@
 
 #import "ccMacros.h"
 
-#if __CC_PLATFORM_IOS
+#ifdef __CC_PLATFORM_IOS
 
 #import "cocos2d.h"
 #import <UIKit/UIKit.h>
 
-@interface PlatformTouch (CC)
+@interface UITouch (CC)
 
 - (CGPoint) locationInNode:(CCNode*) node;
 - (CGPoint) locationInWorld;

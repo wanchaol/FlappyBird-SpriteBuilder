@@ -26,12 +26,6 @@
 #import "ccMacros.h"
 #import "ccTypes.h"
 
-
-#if __CC_PLATFORM_IOS
-#import <UIKit/UIColor.h>
-#endif
-
-
 /**
  *  A CCColor object represents color and sometimes opacity (alpha value) for use with Cocos2D objects.
  */
@@ -99,7 +93,7 @@
  */
 - (CCColor *)colorWithAlphaComponent:(float)alpha;
 
-#if __CC_PLATFORM_IOS
+#ifdef __CC_PLATFORM_IOS
 /**
  *  Converts a UIColor object to its CCColor equivalent.
  *
@@ -158,7 +152,7 @@
  */
 - (CCColor *)initWithCGColor:(CGColorRef)cgColor;
 
-#if __CC_PLATFORM_IOS
+#ifdef __CC_PLATFORM_IOS
 /**
  *  Initializes and returns a UIColor object to its CCColor equivalent.
  *
@@ -287,12 +281,12 @@
 /** The Quartz color reference that corresponds to the CCColor color. */
 @property(nonatomic, readonly) CGColorRef CGColor;
 
-#if __CC_PLATFORM_IOS
+#ifdef __CC_PLATFORM_IOS
 /** The UIColor color reference that corresponds to the CCColor color. */
 @property (nonatomic, readonly) UIColor* UIColor;
 #endif
 
-#if __CC_PLATFORM_MAC
+#ifdef __CC_PLATFORM_MAC
 /** The NSColor color reference that corresponds to the CCColor color. */
 @property (nonatomic, readonly) NSColor* NSColor;
 #endif

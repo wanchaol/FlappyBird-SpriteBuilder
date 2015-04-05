@@ -25,11 +25,11 @@
 
 #import "ccMacros.h"
 
-#if __CC_PLATFORM_IOS
+#ifdef __CC_PLATFORM_IOS
 
 #import "UITouch+CC.h"
 
-@implementation PlatformTouch (CC)
+@implementation UITouch (CC)
 
 - (CGPoint) locationInNode:(CCNode*) node
 {

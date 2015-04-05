@@ -195,9 +195,9 @@
     
     [super layout];
 }
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_ANDROID
+#ifdef __CC_PLATFORM_IOS
 
-- (void) touchEntered:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+- (void) touchEntered:(UITouch *)touch withEvent:(UIEvent *)event
 {
     if (!self.enabled)
     {
@@ -211,12 +211,12 @@
     self.highlighted = YES;
 }
 
-- (void) touchExited:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+- (void) touchExited:(UITouch *)touch withEvent:(UIEvent *)event
 {
     self.highlighted = NO;
 }
 
-- (void) touchUpInside:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+- (void) touchUpInside:(UITouch *)touch withEvent:(UIEvent *)event
 {
     [super setHitAreaExpansion:_originalHitAreaExpansion];
     
@@ -228,7 +228,7 @@
     self.highlighted = NO;
 }
 
-- (void) touchUpOutside:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+- (void) touchUpOutside:(UITouch *)touch withEvent:(UIEvent *)event
 {
     [super setHitAreaExpansion:_originalHitAreaExpansion];
     self.highlighted = NO;

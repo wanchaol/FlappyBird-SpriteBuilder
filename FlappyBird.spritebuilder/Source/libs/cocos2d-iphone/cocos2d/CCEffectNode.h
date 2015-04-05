@@ -15,7 +15,7 @@
 #import "CCTexture.h"
 
 
-#if __CC_PLATFORM_IOS
+#ifdef __CC_PLATFORM_IOS
 #import <UIKit/UIKit.h>
 #endif // iPHone
 

@@ -29,7 +29,6 @@
 
 #import <Foundation/Foundation.h>
 #import "CCResponderManager.h"
-#import "CCMacros.h"
 
 /**
  *  CCResponder is the base class for all nodes.
@@ -96,7 +95,7 @@
  */
 - (BOOL)hitTestWithWorldPos:(CGPoint)pos;
 
-#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
+#if ( TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR )
 
 #pragma mark -
 #pragma mark Touch Handling Methods
@@ -119,7 +118,7 @@
  @param touch    Contains the touch.
  @param event    Current event information.
  */
-- (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event;
+- (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event;
 
 /**
  *  Called whan a touch moves.
@@ -127,7 +126,7 @@
  *  @param touch    Contains the touch.
  *  @param event    Current event information.
  */
-- (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event;
+- (void)touchMoved:(UITouch *)touch withEvent:(UIEvent *)event;
 
 /**
  *  Called when a touch ends.
@@ -135,7 +134,7 @@
  *  @param touch    Contains the touch.
  *  @param event    Current event information.
  */
-- (void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event;
+- (void)touchEnded:(UITouch *)touch withEvent:(UIEvent *)event;
 
 /**
  *  Called when a touch was cancelled.
@@ -145,9 +144,9 @@
  *  @param touch    Contains the touch.
  *  @param event    Current event information.
  */
-- (void)touchCancelled:(CCTouch *)touch withEvent:(CCTouchEvent *)event;
+- (void)touchCancelled:(UITouch *)touch withEvent:(UIEvent *)event;
 
-#elif __CC_PLATFORM_MAC
+#else
 
 
 #pragma mark -

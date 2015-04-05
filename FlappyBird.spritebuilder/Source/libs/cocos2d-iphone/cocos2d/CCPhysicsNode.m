@@ -93,11 +93,6 @@
 	return cpArbiterIgnore(self.arb);
 }
 
--(BOOL)firstContact
-{
-	return cpArbiterIsFirstContact(self.arb);
-}
-
 @end
 
 
@@ -461,12 +456,11 @@ const cpSpaceDebugColor CC_PHYSICS_SHAPE_COLLISION_COLOR = {1.0, 0.0, 0.0, 0.5};
 -(BOOL)debugDraw {return (_debugDraw != nil);}
 -(void)setDebugDraw:(BOOL)debugDraw
 {
-	if(debugDraw && !_debugDraw){
+	if(debugDraw){
 		_debugDraw = [CCDrawNode node];
 		[self addChild:_debugDraw z:NSIntegerMax];
-	} else if(!debugDraw && _debugDraw){
+	} else {
 		[_debugDraw removeFromParent];
-		_debugDraw = nil;
 	}
 }
 

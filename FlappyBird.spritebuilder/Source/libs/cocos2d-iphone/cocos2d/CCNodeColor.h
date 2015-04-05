@@ -25,9 +25,9 @@
 
 #import "ccMacros.h"
 
-#if __CC_PLATFORM_IOS
+#ifdef __CC_PLATFORM_IOS
 #import <UIKit/UIKit.h>									// Needed for UIAccelerometerDelegate
-#elif __CC_PLATFORM_MAC
+#elif defined(__CC_PLATFORM_MAC)
 
 #endif
 

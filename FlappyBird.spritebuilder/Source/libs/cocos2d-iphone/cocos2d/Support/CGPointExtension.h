@@ -46,9 +46,9 @@
 
 #import "ccMacros.h"
 
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_ANDROID
+#ifdef __CC_PLATFORM_IOS
 #import <CoreGraphics/CGGeometry.h>
-#elif __CC_PLATFORM_MAC
+#elif defined(__CC_PLATFORM_MAC)
 #import <Foundation/Foundation.h>
 #endif
 
@@ -196,47 +196,28 @@ ccpDistanceSQ(const CGPoint p1, const CGPoint p2)
 /** Calculates distance between point an origin
  @return CGFloat
  */
-static inline CGFloat
-ccpLength(const CGPoint v)
-{
-	return (CGFloat)sqrt(ccpLengthSQ(v));
-}
+CGFloat ccpLength(const CGPoint v);
 
 /** Calculates the distance between two points
  @return CGFloat
  */
-static inline CGFloat
-ccpDistance(const CGPoint v1, const CGPoint v2)
-{
-	return ccpLength(ccpSub(v1, v2));
-}
+CGFloat ccpDistance(const CGPoint v1, const CGPoint v2);
 
 /** Returns point multiplied to a length of 1.
  @return CGPoint
  */
-static inline CGPoint
-ccpNormalize(const CGPoint v)
-{
-	return ccpMult(v, 1.0f/ccpLength(v));
-}
+CGPoint ccpNormalize(const CGPoint v);
 
 /** Converts radians to a normalized vector.
  @return CGPoint
  */
-static inline CGPoint
-ccpForAngle(const CGFloat a)
-{
-	return ccp((CGFloat)cos(a), (CGFloat)sin(a));
-}
+CGPoint ccpForAngle(const CGFloat a);
 
 /** Converts a vector to radians.
  @return CGFloat
  */
-static inline CGFloat
-ccpToAngle(const CGPoint v)
-{
-	return (CGFloat)atan2(v.y, v.x);
-}
+CGFloat ccpToAngle(const CGPoint v);
+
 
 /** Clamp a value between from and to.
  */
@@ -264,11 +245,8 @@ CGPoint ccpCompOp(CGPoint p, float (*opFunc)(float));
 	alpha == 1 ? b
 	otherwise a value between a..b
  */
-static inline CGPoint
-ccpLerp(CGPoint a, CGPoint b, float alpha)
-{
-	return ccpAdd(ccpMult(a, 1.f - alpha), ccpMult(b, alpha));
-}
+CGPoint ccpLerp(CGPoint a, CGPoint b, float alpha);
+
 
 /** @returns if points have fuzzy equality which means equal with some degree of variance.
  */
@@ -330,20 +308,6 @@ BOOL ccpSegmentIntersect(CGPoint A, CGPoint B, CGPoint C, CGPoint D);
  */
 CGPoint ccpIntersectPoint(CGPoint A, CGPoint B, CGPoint C, CGPoint D);
 
-@interface NSValue (CCValue)
-
-+ (NSValue *)valueWithCGPoint:(CGPoint)point;
-+ (NSValue *)valueWithCGSize:(CGSize)size;
-+ (NSValue *)valueWithCGRect:(CGRect)rect;
-+ (NSValue *)valueWithCGAffineTransform:(CGAffineTransform)transform;
-
-- (CGPoint)CGPointValue;
-- (CGSize)CGSizeValue;
-- (CGRect)CGRectValue;
-- (CGAffineTransform)CGAffineTransformValue;
-
-@end
-    
 #ifdef __cplusplus
 }
 #endif

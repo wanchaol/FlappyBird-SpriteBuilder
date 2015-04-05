@@ -64,7 +64,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 // Only compile this code on iOS. These files should NOT be included on your Mac project.
 // But in case they are included, it won't be compiled.
 #import "../../ccMacros.h"
-#if __CC_PLATFORM_IOS
+#ifdef __CC_PLATFORM_IOS
 
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
@@ -72,8 +72,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 
-#import "CCDirectorView.h"
-
+#import "CCESRenderer.h"
 
 //CLASSES:
 
@@ -101,7 +100,22 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
  - numberOfSamples: Only valid if multisampling is enabled
 	- Possible values: 0 to glGetIntegerv(GL_MAX_SAMPLES_APPLE)
  */
-@interface CCGLView : UIView <CCDirectorView>
+@interface CCGLView : UIView
+{
+    id<CCESRenderer>		_renderer;
+	EAGLContext *_context; // weak ref
+
+	NSString *_pixelformat;
+	GLuint					_depthFormat;
+	BOOL					_preserveBackbuffer;
+
+	CGSize					_size;
+	BOOL					_discardFramebufferSupported;
+
+	//fsaa addition
+	BOOL					_multisampling;
+	unsigned int			_requestedSamples;
+}
 
 /** creates an initializes an CCGLView with a frame and 0-bit depth buffer, and a RGB565 color buffer. */
 + (id) viewWithFrame:(CGRect)frame;
@@ -132,8 +146,17 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 @property(nonatomic,readwrite) BOOL multiSampling;
 
-@property(nonatomic, readonly) GLuint fbo;
+/** CCGLView uses double-buffer. This method swaps the buffers */
+-(void) swapBuffers;
 
+/** uses and locks the OpenGL context */
+-(void) lockOpenGLContext;
+
+/** unlocks the openGL context */
+-(void) unlockOpenGLContext;
+
+- (CGPoint) convertPointFromViewToSurface:(CGPoint)point;
+- (CGRect) convertRectFromViewToSurface:(CGRect)rect;
 @end
 
 #endif // __CC_PLATFORM_IOS

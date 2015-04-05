@@ -27,24 +27,20 @@
 // Only compile this code on Mac. These files should not be included on your iOS project.
 // But in case they are included, it won't be compiled.
 #import "../../ccMacros.h"
-#if __CC_PLATFORM_MAC
+#ifdef __CC_PLATFORM_MAC
 
 #import <Cocoa/Cocoa.h>
-#import "CCDirectorView.h"
 
-//#import "../../ccConfig.h"
+#import "../../ccConfig.h"
 
 /** CCGLView
 
  Only available for Mac OS X
  */
-@interface CCGLView : NSOpenGLView <CCDirectorView>
+@interface CCGLView : NSOpenGLView
 
 /** initializes the CCGLView with a frame rect and an OpenGL context */
 - (id) initWithFrame:(NSRect)frameRect shareContext:(NSOpenGLContext*)context;
-
-/** returns the depth format of the view in BPP */
-- (NSUInteger) depthFormat;
 
 /** uses and locks the OpenGL context */
 -(void) lockOpenGLContext;
@@ -52,9 +48,11 @@
 /** unlocks the openGL context */
 -(void) unlockOpenGLContext;
 
--(GLuint)fbo;
+/** returns the depth format of the view in BPP */
+- (NSUInteger) depthFormat;
 
-
+// private
++(void) load_;
 @end
 
 #endif // __CC_PLATFORM_MAC

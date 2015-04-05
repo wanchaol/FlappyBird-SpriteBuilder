@@ -114,13 +114,6 @@
  */
 -(void) loadSpriteFrameLookupDictionaryFromFile:(NSString*)filename;
 
-/**
- *  Loads all sprite sheet lookup files in all search paths and registers all the referenced sprite sheets with the sprite frame cache.
- *
- *  @param filename Sprite sheet lookup file.
- */
-- (void)loadSpriteFrameLookupsInAllSearchPathsWithName:(NSString *)filename;
-
 /// -----------------------------------------------------------------------
 /// @name Sprite Frame Cache Removal
 /// -----------------------------------------------------------------------

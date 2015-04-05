@@ -32,6 +32,41 @@
 
 #define kCGPointEpsilon FLT_EPSILON
 
+CGFloat
+ccpLength(const CGPoint v)
+{
+	return sqrtf(ccpLengthSQ(v));
+}
+
+CGFloat
+ccpDistance(const CGPoint v1, const CGPoint v2)
+{
+	return ccpLength(ccpSub(v1, v2));
+}
+
+CGPoint
+ccpNormalize(const CGPoint v)
+{
+	return ccpMult(v, 1.0f/ccpLength(v));
+}
+
+CGPoint
+ccpForAngle(const CGFloat a)
+{
+	return ccp(cosf(a), sinf(a));
+}
+
+CGFloat
+ccpToAngle(const CGPoint v)
+{
+	return atan2f(v.y, v.x);
+}
+
+CGPoint ccpLerp(CGPoint a, CGPoint b, float alpha)
+{
+	return ccpAdd(ccpMult(a, 1.f - alpha), ccpMult(b, alpha));
+}
+
 float clampf(float value, float min_inclusive, float max_inclusive)
 {
 	if (min_inclusive > max_inclusive) {
@@ -159,57 +194,3 @@ float ccpAngle(CGPoint a, CGPoint b)
 	if( fabs(angle) < kCGPointEpsilon ) return 0.f;
 	return angle;
 }
-
-@implementation NSValue (CCValue)
-
-+ (NSValue *)valueWithCGPoint:(CGPoint)point
-{
-    return [NSValue value:&point withObjCType:@encode(CGPoint)];
-}
-
-+ (NSValue *)valueWithCGRect:(CGRect)rect
-{
-    return [NSValue value:&rect withObjCType:@encode(CGRect)];
-}
-
-+ (NSValue *)valueWithCGSize:(CGSize)size
-{
-    return [NSValue value:&size withObjCType:@encode(CGSize)];
-}
-
-+ (NSValue *)valueWithCGAffineTransform:(CGAffineTransform)transform
-{
-    return [NSValue value:&transform withObjCType:@encode(CGAffineTransform)];
-}
-
-- (CGPoint)CGPointValue
-{
-	CGPoint pt = CGPointZero;
-    [self getValue:&pt];
-    return pt;
-}
-
-- (CGRect)CGRectValue
-{
-    CGRect r = CGRectZero;
-    [self getValue:&r];
-    return r;
-}
-
-- (CGSize)CGSizeValue
-{
-	CGSize sz = CGSizeZero;
-    [self getValue:&sz];
-    return sz;
-}
-
-- (CGAffineTransform)CGAffineTransformValue
-{
-    CGAffineTransform transform = CGAffineTransformIdentity;
-    [self getValue:&transform];
-    return transform;
-}
-
-@end
-
-
